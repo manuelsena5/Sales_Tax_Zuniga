@@ -3,10 +3,10 @@ library(lubridate)
 library(openxlsx)
 library(emayili)
 
-
+#To set working directory
 setwd("C:/Users/manue/Desktop/M+C Bookkeeping/Tax Clients/Javier Zuniga/Sales Taxes/2022/Sales Tax Calc")
 
-
+#To set directory path for to save the download file
 path <- "C:/Users/manue/Desktop/M+C Bookkeeping/Tax Clients/Javier Zuniga/Sales Taxes/"
 
 year <- year(now())
