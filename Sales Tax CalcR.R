@@ -4,6 +4,8 @@ library(openxlsx)
 library(emayili)
 
 
+setwd("C:/Users/manue/Desktop/M+C Bookkeeping/Tax Clients/Javier Zuniga/Sales Taxes/2022/Sales Tax Calc")
+
 
 path <- "C:/Users/manue/Desktop/M+C Bookkeeping/Tax Clients/Javier Zuniga/Sales Taxes/"
 
@@ -35,11 +37,11 @@ paypal_report2 <- replace_na(paypal_report2, list(Shipping.and.Handling.Amount =
 
 #Calculation
 
-if(paypal_report2$Shipping.and.Handling.Amount > 0){
-  (paypal_report2$Shipping.and.Handling.Amount * 0.825) + paypal_report2$Sales.Tax
-} else {
-  paypal_report2$Sales.Tax
-}
+# if(paypal_report2$Shipping.and.Handling.Amount > 0){
+#   (paypal_report2$Shipping.and.Handling.Amount * 0.825) + paypal_report2$Sales.Tax
+# } else {
+#   paypal_report2$Sales.Tax
+# }
 
 
 paypal_report2$Calculated.tax <- ifelse(paypal_report2$Shipping.and.Handling.Amount > 0, 
@@ -57,8 +59,8 @@ paypal_report2$All.Sales <- ifelse(paypal_report2$Calculated.tax == 0, paypal_re
 
 
 
-tax.total <- sum(paypal_report2$Taxable.Sales)
-sales.total <- sum(paypal_report2$All.Sales)
+tax.total <- round(sum(paypal_report2$Taxable.Sales),0)
+sales.total <- round(sum(paypal_report2$All.Sales),0)
 Tax <- round(tax.total * 0.0825, 2)
 
 # Taxable and Gross Sales for the State of Texas
