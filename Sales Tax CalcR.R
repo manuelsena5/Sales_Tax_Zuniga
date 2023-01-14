@@ -6,19 +6,22 @@ library(emayili)
 #To set working directory
 setwd("C:/Users/manue/Desktop/M+C Bookkeeping/Tax Clients/Javier Zuniga/Sales Taxes/2022/Sales Tax Calc")
 
-#To set directory path for to save the download file
+#To set directory path  to save the download file
 path <- "C:/Users/manue/Desktop/M+C Bookkeeping/Tax Clients/Javier Zuniga/Sales Taxes/"
 
 year <- year(now())
 
-quarter <- quarter(now())-1
+quarter <- ifelse(quarter(now())-1 == 0, 4, quarter(now())-1)
 
 #To get the sales report downloaded from PayPal
+#Go to Activity -> All transactions -> Activity Download -> All Transactions -> Dates -> CSV ->
+#Hit create report and cut and paste in the working directory
+
 
 paypal_report <- read.csv("Download.csv")
 
 
-#Selecting the Columns Need for Calculation
+#Selecting the Columns Needed for Calculation
 
 paypal_report2 <- paypal_report[,1:20]
 
@@ -44,9 +47,9 @@ paypal_report2 <- replace_na(paypal_report2, list(Shipping.and.Handling.Amount =
 # }
 
 
-paypal_report2$Calculated.tax <- ifelse(paypal_report2$Shipping.and.Handling.Amount > 0, 
+paypal_report2$Calculated.tax <- round(ifelse(paypal_report2$Shipping.and.Handling.Amount > 0, 
        (paypal_report2$Shipping.and.Handling.Amount * 0.0825) + paypal_report2$Sales.Tax,
-      paypal_report2$Sales.Tax)
+      paypal_report2$Sales.Tax))
 
 
 paypal_report2$Taxable.Sales <- ifelse(paypal_report2$Calculated.tax == 0, 0, 
@@ -90,7 +93,7 @@ email <- envelope() %>%
   text("Javier,
        
        I have completed the franchise tax report due this month with the Texas Comptroller. Whenever you have time please log in and submit the payment.
-       This quarter the tax due is $ {{Tax}}. There may be a small discount if paid by the 20th when is due. Please let me know if you have any questions or concerns.
+       This quarter the tax due is $ {{Tax}}. There may be a small discount if paid by the 20th when it is due. Please let me know if you have any questions or concerns.
        
        Respectfully,
        
